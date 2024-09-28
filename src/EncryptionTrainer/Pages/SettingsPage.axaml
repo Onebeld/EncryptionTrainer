@@ -1,0 +1,178 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:EncryptionTrainer.ViewModels"
+             xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
+             xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI"
+             xmlns:encryptionTrainer="clr-namespace:EncryptionTrainer"
+             xmlns:structures="clr-namespace:EncryptionTrainer.Structures"
+             xmlns:converters="clr-namespace:EncryptionTrainer.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="EncryptionTrainer.Pages.SettingsPage"
+             x:DataType="viewModels:SettingsViewModel">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="20 20 20 10">
+            <Button Command="{CompiledBinding GoBack}"
+                    ToolTip.Tip="{Localize Back}">
+                <PathIcon Data="{StaticResource ArrowLeftRegular}" />
+            </Button>
+            
+            <PathIcon Data="{StaticResource SettingsRegular}" Width="22" Height="22" />
+
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                       Text="{Localize Settings}" />
+        </StackPanel>
+
+        <Border Background="{DynamicResource BackgroundColor2}"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Margin="10">
+            <SmoothScrollViewer>
+                <StackPanel Spacing="5" Margin="20">
+                    <TextBlock Theme="{StaticResource BaseTextBlockTheme}" Text="{Localize General}" />
+
+                    <OptionsDisplayItem Header="{Localize Language}"
+                                        Icon="{StaticResource LanguageRegular}">
+                        <OptionsDisplayItem.ActionButton>
+                            <ComboBox MinWidth="150"
+                                      ItemsSource="{CompiledBinding Source={x:Static encryptionTrainer:App.Languages}}"
+                                      SelectedItem="{CompiledBinding SelectedLanguage}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="structures:Language">
+                                        <TextBlock Text="{CompiledBinding Name}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </OptionsDisplayItem.ActionButton>
+                    </OptionsDisplayItem>
+
+                    <TextBlock Theme="{StaticResource BaseTextBlockTheme}" Text="{Localize Appearance}"
+                               Margin="0 15 0 0" />
+
+                    <OptionsDisplayItem Header="{Localize EnableShadow}"
+                                        Icon="{StaticResource ShadowBoxRegular}"
+                                        Description="{Localize EnableShadowDescription}">
+                        <OptionsDisplayItem.ActionButton>
+                            <ToggleSwitch Classes="RightToggle"
+                                          IsChecked="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
+                        </OptionsDisplayItem.ActionButton>
+                    </OptionsDisplayItem>
+
+                    <OptionsDisplayItem Header="{Localize EnableBlur}"
+                                        Icon="{StaticResource BlurRegular}"
+                                        Expands="True"
+                                        IsVisible="{OnPlatform Windows=True, Linux=False}">
+                        <OptionsDisplayItem.ActionButton>
+                            <ToggleSwitch Classes="RightToggle"
+                                          IsChecked="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
+                        </OptionsDisplayItem.ActionButton>
+
+                        <OptionsDisplayItem.Content>
+                            <DockPanel Margin="48 0 33 0">
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Spacing="5">
+                                    <NumericUpDown
+                                        Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}"
+                                        Maximum="1"
+                                        Minimum="0"
+                                        Increment="0.1"
+                                        FormatString="P0"
+                                        MinWidth="90"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        ParsingNumberStyle="Integer" />
+
+                                    <Slider Width="150"
+                                            Minimum="0"
+                                            Maximum="1"
+                                            TickFrequency="0.01"
+                                            Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
+                                </StackPanel>
+
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap"
+                                           Text="{Localize OpacityLevel}" />
+                            </DockPanel>
+                        </OptionsDisplayItem.Content>
+                    </OptionsDisplayItem>
+                    
+                    <OptionsDisplayItem Header="{Localize AccentColor}"
+                                        Icon="{StaticResource PaletteRegular}">
+                        <OptionsDisplayItem.ActionButton>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <CheckBox Content="{Localize UseSystemAccentColor}"
+                                          IsChecked="{CompiledBinding UseAccentColor}" />
+                                
+                                <Border Background="{DynamicResource CheckeredBackground}"
+                                        Width="40"
+                                        Height="25"
+                                        CornerRadius="8"
+                                        ToolTip.Tip="{CompiledBinding NumericalAccentColor, Source={x:Static PleasantSettings.Instance}, Converter={x:Static converters:UIntToHexConverter.Instance}}">
+                                    <Border CornerRadius="8" Background="{CompiledBinding NumericalAccentColor, Source={x:Static PleasantSettings.Instance}, Converter={x:Static ColorConverters.UIntToBrush}}" />
+                                </Border>
+                                
+                                <Button Theme="{StaticResource AppBarButtonTheme}"
+                                        Width="30"
+                                        Height="30"
+                                        ToolTip.Tip="{Localize Menu}">
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="{Localize CopyMenu}"
+                                                      Command="{CompiledBinding CopyAccentColor}">
+                                                <MenuItem.Icon>
+                                                    <PathIcon Data="{StaticResource CopyRegular}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="{Localize PasteMenu}"
+                                                      IsEnabled="{CompiledBinding !UseAccentColor}"
+                                                      Command="{CompiledBinding PasteAccentColor}">
+                                                <MenuItem.Icon>
+                                                    <PathIcon Data="{StaticResource PasteRegular}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            
+                                            <Separator />
+                                            
+                                            <MenuItem Header="{Localize ChangeMenu}"
+                                                      IsEnabled="{CompiledBinding !UseAccentColor}"
+                                                      Command="{CompiledBinding ChangeAccentColor}">
+                                                <MenuItem.Icon>
+                                                    <PathIcon Data="{StaticResource EditRegular}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                    
+                                    <PathIcon Data="{StaticResource MoreRegular}" />
+                                </Button>
+                            </StackPanel>
+                        </OptionsDisplayItem.ActionButton>
+                    </OptionsDisplayItem>
+
+                    <OptionsDisplayItem Header="{Localize Theme}"
+                                        Icon="{StaticResource BrushVariantRegular}">
+                        <OptionsDisplayItem.ActionButton>
+                            <ComboBox MinWidth="150"
+                                      ItemsSource="{x:Static PleasantTheme.Themes}"
+                                      SelectedItem="{CompiledBinding SelectedTheme}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:Theme}">
+                                        <StackPanel Spacing="10" Orientation="Horizontal">
+                                            <ThemePreviewVariantScope
+                                                IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                                                <userControls:ThemePreview />
+                                            </ThemePreviewVariantScope>
+
+                                            <TextBlock Text="{CompiledBinding Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </OptionsDisplayItem.ActionButton>
+                    </OptionsDisplayItem>
+                </StackPanel>
+            </SmoothScrollViewer>
+        </Border>
+    </DockPanel>
+</UserControl>

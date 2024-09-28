@@ -1,0 +1,32 @@
+<PleasantWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:transitions="clr-namespace:PleasantUI.Transitions;assembly=PleasantUI"
+                xmlns:encryptionTrainer="clr-namespace:EncryptionTrainer"
+                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                x:Class="EncryptionTrainer.MainWindow"
+                Width="850"
+                Height="550"
+                MinWidth="610"
+                MinHeight="400"
+                WindowStartupLocation="CenterScreen"
+                Title="Encryption Trainer"
+                x:DataType="encryptionTrainer:MainViewModel">
+    <PleasantWindow.TitleContent>
+        <Button Theme="{StaticResource AppBarButtonTheme}"
+                Command="{CompiledBinding OpenSettingsPage}"
+                Width="45"
+                CornerRadius="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                ToolTip.Tip="{Localize Settings}">
+            <PathIcon Data="{StaticResource SettingsRegular}" />
+        </Button>
+    </PleasantWindow.TitleContent>
+    <TransitioningContentControl Content="{CompiledBinding Page}">
+        <TransitioningContentControl.PageTransition>
+            <transitions:PleasantPageSlide Orientation="Horizontal" Duration="0:0:0.3" Forward="{CompiledBinding IsForwardAnimation}" />
+        </TransitioningContentControl.PageTransition>
+    </TransitioningContentControl>
+</PleasantWindow>

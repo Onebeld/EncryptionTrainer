@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Back" xml:space="preserve">
+        <value>Назад</value>
+    </data>
+    <data name="Close" xml:space="preserve">
+        <value>Закрыть</value>
+    </data>
+    <data name="CloseMenu" xml:space="preserve">
+        <value>_Закрыть</value>
+    </data>
+    <data name="Collapse" xml:space="preserve">
+        <value>Свернуть</value>
+    </data>
+    <data name="CollapseMenu" xml:space="preserve">
+        <value>_Свернуть</value>
+    </data>
+    <data name="CopyMenu" xml:space="preserve">
+        <value>_Копировать</value>
+    </data>
+    <data name="CutMenu" xml:space="preserve">
+        <value>Вы_резать</value>
+    </data>
+    <data name="PasteMenu" xml:space="preserve">
+        <value>_Вставить</value>
+    </data>
+    <data name="Expand" xml:space="preserve">
+        <value>Развернуть</value>
+    </data>
+    <data name="ExpandMenu" xml:space="preserve">
+        <value>_Развернуть</value>
+    </data>
+    <data name="Reestablish" xml:space="preserve">
+        <value>Восстановить</value>
+    </data>
+    <data name="ReestablishMenu" xml:space="preserve">
+        <value>_Восстановить</value>
+    </data>
+    <data name="CreateUser" xml:space="preserve">
+        <value>Создать пользователя</value>
+    </data>
+    <data name="LoadUser" xml:space="preserve">
+        <value>Загрузить пользователя</value>
+    </data>
+    <data name="WelcomeToTraining" xml:space="preserve">
+        <value>Добро пожаловать в тренажер!</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Настройки</value>
+    </data>
+    <data name="Theme" xml:space="preserve">
+        <value>Тема</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>Язык</value>
+    </data>
+    <data name="Appearance" xml:space="preserve">
+        <value>Внешний вид</value>
+    </data>
+    <data name="General" xml:space="preserve">
+        <value>Основное</value>
+    </data>
+    <data name="EnableBlur" xml:space="preserve">
+        <value>Включить размытие</value>
+    </data>
+    <data name="OpacityLevel" xml:space="preserve">
+        <value>Уровень непрозрачности</value>
+    </data>
+    <data name="EnableShadow" xml:space="preserve">
+        <value>Включить тень</value>
+    </data>
+    <data name="EnableShadowDescription" xml:space="preserve">
+        <value>Если у вас проблемы с производительностью, отключите этот параметр</value>
+    </data>
+    <data name="Menu" xml:space="preserve">
+        <value>Меню</value>
+    </data>
+    <data name="ChangeMenu" xml:space="preserve">
+        <value>_Изменить</value>
+    </data>
+    <data name="AccentColor" xml:space="preserve">
+        <value>Акцентный цвет</value>
+    </data>
+    <data name="UseSystemAccentColor" xml:space="preserve">
+        <value>Системный цвет</value>
+    </data>
+    <data name="Username" xml:space="preserve">
+        <value>Имя пользователя</value>
+    </data>
+    <data name="Password" xml:space="preserve">
+        <value>Пароль</value>
+    </data>
+    <data name="RepeatPassword" xml:space="preserve">
+        <value>Повторите пароль</value>
+    </data>
+    <data name="UseBiometrics" xml:space="preserve">
+        <value>Использовать биометрию</value>
+    </data>
+    <data name="UploadPhoto" xml:space="preserve">
+        <value>Загрузить фотографию</value>
+    </data>
+    <data name="UseCamera" xml:space="preserve">
+        <value>Использовать камеру</value>
+    </data>
+</root>

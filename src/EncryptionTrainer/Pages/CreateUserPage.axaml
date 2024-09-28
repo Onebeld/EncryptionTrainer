@@ -1,0 +1,86 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:EncryptionTrainer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="EncryptionTrainer.Pages.CreateUserPage"
+             x:DataType="viewModels:CreateUserViewModel">
+    <UserControl.Styles>
+        <Style Selector="TextBox#PasswordTextBox.isConfirmPassword">
+            <Style.Animations>
+                <Animation Duration="0:0:1" Easing="CubicEaseInOut" FillMode="Both">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="-90" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        
+        <Style Selector="TextBox#ConfirmPasswordTextBox.isConfirmPassword">
+            <Style.Animations>
+                <Animation Duration="0:0:1" Easing="CubicEaseInOut" FillMode="Both">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="90" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </UserControl.Styles>
+    
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="20 20 20 10">
+            <Button Command="{CompiledBinding GoBack}">
+                <PathIcon Data="{StaticResource ArrowLeftRegular}" />
+            </Button>
+            
+            <PathIcon Data="{StaticResource AddAccountRegular}" Width="22" Height="22" />
+            
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                       Text="{Localize CreateUser}" />
+        </StackPanel>
+        
+        <SmoothScrollViewer>
+            <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="300">
+                <TextBox Watermark="{Localize Username}" />
+                
+                <Panel>
+                    <TextBox x:Name="PasswordTextBox" Watermark="{Localize Password}" Classes.isConfirmPassword="True">
+                        <TextBox.RenderTransform>
+                            <Rotate3DTransform CenterZ="15" />
+                        </TextBox.RenderTransform>
+                    </TextBox>
+                    
+                    <TextBox x:Name="ConfirmPasswordTextBox" Watermark="{Localize RepeatPassword}" Classes.isConfirmPassword="True">
+                        <TextBox.RenderTransform>
+                            <Rotate3DTransform CenterZ="15" />
+                        </TextBox.RenderTransform>
+                    </TextBox>
+                </Panel>
+                
+                <Button Content="{Localize UseBiometrics}" Margin="0 20 0 0">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuItem Header="{Localize UseCamera}">
+                                
+                            </MenuItem>
+                            <MenuItem Header="{Localize UploadPhoto}">
+                                
+                            </MenuItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+        </SmoothScrollViewer>
+    </DockPanel>
+</UserControl>

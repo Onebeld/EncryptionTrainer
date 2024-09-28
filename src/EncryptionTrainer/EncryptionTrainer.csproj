@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.2.0-beta2" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta2" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+        <PackageReference Include="Emgu.CV" Version="4.9.0.5494" />
+        <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
+        <PackageReference Include="FlashCap" Version="1.10.0" />
+        <PackageReference Include="PleasantUI" Version="5.0.0-alpha1" />
+        <PackageReference Include="ScottPlot.Avalonia" Version="5.0.39" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Local.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Local.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Properties\Local.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Local.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Properties\Local.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Local.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Properties\Local.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Local.ru.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Resources\haarcascade_frontalface_default.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+</Project>
