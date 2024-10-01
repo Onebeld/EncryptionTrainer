@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Resources;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using EncryptionTrainer.General;
 using EncryptionTrainer.Properties;
@@ -20,6 +22,14 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        DataAnnotationsValidationPlugin[] dataValidationPluginsToRemove =
+            BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
+
+        foreach (DataAnnotationsValidationPlugin plugin in dataValidationPluginsToRemove)
+        {
+            BindingPlugins.DataValidators.Remove(plugin);
+        }
+        
         Localizer.Instance.AddResourceManager(new ResourceManager(typeof(Local)));
         Localizer.Instance.EditLanguage(AppSettings.Instance.Language);
         

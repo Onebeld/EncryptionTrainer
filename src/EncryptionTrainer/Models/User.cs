@@ -1,10 +1,12 @@
 ﻿namespace EncryptionTrainer.Models;
 
-public class User(string username, string password, byte[]? faceData)
+public class User(string username, string password, PasswordEntryCharacteristic passwordEntryCharacteristic, byte[]? faceData)
 {
-    public string Username { get; set; } = username;
+    public string Username { get; init; } = username;
 
-    public string Password { get; set; } = password;
+    public string Password { get; init; } = password;
 
-    public byte[]? FaceData { get; set; } = faceData;
+    public byte[]? FaceData { get; init; } = faceData;
+
+    public PasswordEntryCharacteristic PasswordEntryCharacteristic { get; init; } = passwordEntryCharacteristic;
 }

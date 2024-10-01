@@ -87,6 +87,24 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Biometrics has been added!.
+        /// </summary>
+        internal static string BiometricsAdded {
+            get {
+                return ResourceManager.GetString("BiometricsAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to add biometrics.
+        /// </summary>
+        internal static string BiometricsNotAdded {
+            get {
+                return ResourceManager.GetString("BiometricsNotAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ch_ange.
         /// </summary>
         internal static string ChangeMenu {
@@ -159,6 +177,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Definition of a person.
+        /// </summary>
+        internal static string DefinitionOfPerson {
+            get {
+                return ResourceManager.GetString("DefinitionOfPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable blur.
         /// </summary>
         internal static string EnableBlur {
@@ -213,6 +240,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image files.
+        /// </summary>
+        internal static string ImageFiles {
+            get {
+                return ResourceManager.GetString("ImageFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         internal static string Language {
@@ -258,6 +294,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password entered! To cancel, highlight the password field and press Escape.
+        /// </summary>
+        internal static string PasswordEntered {
+            get {
+                return ResourceManager.GetString("PasswordEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Paste.
         /// </summary>
         internal static string PasteMenu {
@@ -290,6 +335,15 @@ namespace EncryptionTrainer.Properties {
         internal static string RepeatPassword {
             get {
                 return ResourceManager.GetString("RepeatPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select image.
+        /// </summary>
+        internal static string SelectImage {
+            get {
+                return ResourceManager.GetString("SelectImage", resourceCulture);
             }
         }
         

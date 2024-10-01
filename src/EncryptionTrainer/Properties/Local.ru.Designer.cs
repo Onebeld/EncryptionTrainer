@@ -87,6 +87,24 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Биометрия добавлена!.
+        /// </summary>
+        internal static string BiometricsAdded {
+            get {
+                return ResourceManager.GetString("BiometricsAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось добавить биометрию.
+        /// </summary>
+        internal static string BiometricsNotAdded {
+            get {
+                return ResourceManager.GetString("BiometricsNotAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Изменить.
         /// </summary>
         internal static string ChangeMenu {
@@ -159,6 +177,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Определение лица.
+        /// </summary>
+        internal static string DefinitionOfPerson {
+            get {
+                return ResourceManager.GetString("DefinitionOfPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Включить размытие.
         /// </summary>
         internal static string EnableBlur {
@@ -213,6 +240,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Файлы изображений.
+        /// </summary>
+        internal static string ImageFiles {
+            get {
+                return ResourceManager.GetString("ImageFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Язык.
         /// </summary>
         internal static string Language {
@@ -258,6 +294,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Пароль введен! Для отмены выделите поле с паролем и нажмите Escape.
+        /// </summary>
+        internal static string PasswordEntered {
+            get {
+                return ResourceManager.GetString("PasswordEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Вставить.
         /// </summary>
         internal static string PasteMenu {
@@ -290,6 +335,15 @@ namespace EncryptionTrainer.Properties {
         internal static string RepeatPassword {
             get {
                 return ResourceManager.GetString("RepeatPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выбрать изображение.
+        /// </summary>
+        internal static string SelectImage {
+            get {
+                return ResourceManager.GetString("SelectImage", resourceCulture);
             }
         }
         

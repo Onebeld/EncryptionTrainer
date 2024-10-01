@@ -9,7 +9,7 @@
     <UserControl.Styles>
         <Style Selector="TextBox#PasswordTextBox.isConfirmPassword">
             <Style.Animations>
-                <Animation Duration="0:0:1" Easing="CubicEaseInOut" FillMode="Both">
+                <Animation Duration="0:0:0.5" Easing="CubicEaseInOut" FillMode="Both">
                     <KeyFrame Cue="0%">
                         <Setter Property="Rotate3DTransform.AngleX" Value="0" />
                         <Setter Property="Opacity" Value="1" />
@@ -21,10 +21,24 @@
                 </Animation>
             </Style.Animations>
         </Style>
+        <Style Selector="TextBox#PasswordTextBox.isNotConfirmPassword">
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" Easing="CubicEaseInOut" FillMode="Both">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="-90" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
         
         <Style Selector="TextBox#ConfirmPasswordTextBox.isConfirmPassword">
             <Style.Animations>
-                <Animation Duration="0:0:1" Easing="CubicEaseInOut" FillMode="Both">
+                <Animation Duration="0:0:0.5" Easing="CubicEaseInOut" FillMode="Both">
                     <KeyFrame Cue="0%">
                         <Setter Property="Rotate3DTransform.AngleX" Value="90" />
                         <Setter Property="Opacity" Value="0" />
@@ -32,6 +46,20 @@
                     <KeyFrame Cue="100%">
                         <Setter Property="Rotate3DTransform.AngleX" Value="0" />
                         <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="TextBox#ConfirmPasswordTextBox.isNotConfirmPassword">
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" Easing="CubicEaseInOut" FillMode="Both">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Rotate3DTransform.AngleX" Value="90" />
+                        <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
@@ -51,34 +79,83 @@
         </StackPanel>
         
         <SmoothScrollViewer>
-            <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="300">
-                <TextBox Watermark="{Localize Username}" />
+            <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="300" Width="300">
+                <TextBox Watermark="{Localize Username}"
+                         Text="{CompiledBinding Username, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                 
                 <Panel>
-                    <TextBox x:Name="PasswordTextBox" Watermark="{Localize Password}" Classes.isConfirmPassword="True">
+                    <TextBox x:Name="PasswordTextBox"
+                             KeyDown="PasswordTextBox_OnKeyDown"
+                             Watermark="{Localize Password}"
+                             Text="{CompiledBinding Password}"
+                             Classes.isConfirmPassword="{CompiledBinding PasswordIsEntered}"
+                             Classes.isNotConfirmPassword="{CompiledBinding !PasswordIsEntered}">
                         <TextBox.RenderTransform>
                             <Rotate3DTransform CenterZ="15" />
                         </TextBox.RenderTransform>
                     </TextBox>
                     
-                    <TextBox x:Name="ConfirmPasswordTextBox" Watermark="{Localize RepeatPassword}" Classes.isConfirmPassword="True">
+                    <TextBox x:Name="ConfirmPasswordTextBox"
+                             IsReadOnly="{CompiledBinding PasswordIsConfirmed}"
+                             Text="{CompiledBinding ConfirmPassword}"
+                             KeyDown="ConfirmPasswordTextBox_OnKeyDown"
+                             KeyUp="ConfirmPasswordTextBox_OnKeyUp"
+                             Watermark="{Localize RepeatPassword}"
+                             Classes.isConfirmPassword="{CompiledBinding PasswordIsEntered}"
+                             Classes.isNotConfirmPassword="{CompiledBinding !PasswordIsEntered}">
                         <TextBox.RenderTransform>
                             <Rotate3DTransform CenterZ="15" />
                         </TextBox.RenderTransform>
                     </TextBox>
                 </Panel>
                 
+                <TextBlock IsVisible="{CompiledBinding PasswordIsConfirmed}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap">
+                    <InlineUIContainer>
+                        <PathIcon Foreground="{DynamicResource TextFillColor2}" Data="{StaticResource CheckmarkRegular}" Margin="0 0 3 0" />
+                    </InlineUIContainer>
+                    
+                    <Run Text="{Localize PasswordEntered}" />
+                </TextBlock>
+                
                 <Button Content="{Localize UseBiometrics}" Margin="0 20 0 0">
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuItem Header="{Localize UseCamera}">
-                                
+                            <MenuItem Header="{Localize UseCamera}"
+                                      Command="{CompiledBinding LoadFaceFromCamera}">
+                                <MenuItem.Icon>
+                                    <PathIcon Data="{StaticResource CameraRegular}" />
+                                </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{Localize UploadPhoto}">
-                                
+                            
+                            <MenuItem Header="{Localize UploadPhoto}"
+                                      Command="{CompiledBinding LoadFaceFromImage}">
+                                <MenuItem.Icon>
+                                    <PathIcon Data="{StaticResource ImageFileRegular}" />
+                                </MenuItem.Icon>
                             </MenuItem>
                         </MenuFlyout>
                     </Button.Flyout>
+                </Button>
+                
+                <TextBlock IsVisible="{CompiledBinding FaceDataIsAdded}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           TextAlignment="Center">
+                    <InlineUIContainer>
+                        <PathIcon Foreground="{DynamicResource TextFillColor2}" Data="{StaticResource CheckmarkRegular}" Margin="0 0 3 0" />
+                    </InlineUIContainer>
+                    
+                    <Run Text="{Localize BiometricsAdded}" />
+                </TextBlock>
+                
+                <Button Margin="0 25 0 0" Command="{CompiledBinding AddUser}" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <PathIcon Data="{StaticResource AddRegular}" />
+                        
+                        <TextBlock Text="Add user" />
+                    </StackPanel>
                 </Button>
             </StackPanel>
         </SmoothScrollViewer>

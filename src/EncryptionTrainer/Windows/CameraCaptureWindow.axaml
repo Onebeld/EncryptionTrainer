@@ -1,0 +1,55 @@
+﻿<ContentDialog xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:windows="clr-namespace:EncryptionTrainer.ViewModels.Windows"
+               xmlns:siv="https://github.com/kekyo/SkiaImageView"
+               mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="750"
+               x:Class="EncryptionTrainer.Windows.CameraCaptureWindow"
+               x:DataType="windows:CameraCaptureViewModel"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+    <Design.DesignStyle>
+        <Style Selector="ContentDialog">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+    </Design.DesignStyle>
+    
+    <Grid RowDefinitions="Auto,*,Auto" Height="360" Width="540">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="20 20 20 0">
+            <PathIcon Data="{StaticResource CameraRegular}" Width="22" Height="22" />
+
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                       Text="{Localize DefinitionOfPerson}" />
+        </StackPanel>
+        
+        <Border Grid.Row="1"
+                Background="{DynamicResource BackgroundColor2}"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Margin="20"
+                ClipToBounds="True">
+            <Panel>
+                <PathIcon Data="{StaticResource AccountBoxRegular}"
+                          Foreground="{DynamicResource TextFillColor3}"
+                          Width="75"
+                          Height="75" />
+                
+                <siv:SKImageView Source="{CompiledBinding CameraBitmap}" />
+            </Panel>
+        </Border>
+    </Grid>
+    
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid Margin="15 0" Rows="0" Columns="2">
+            <Panel />
+
+            <Button x:Name="CancelButton"
+                    Content="{Localize Cancel, Default='Cancel'}"
+                    Command="{CompiledBinding CancelAsync}"
+                    VerticalAlignment="Center"
+                    Margin="5" />
+        </UniformGrid>
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

@@ -120,4 +120,22 @@
     <data name="UseCamera" xml:space="preserve">
         <value>Использовать камеру</value>
     </data>
+    <data name="DefinitionOfPerson" xml:space="preserve">
+        <value>Определение лица</value>
+    </data>
+    <data name="BiometricsNotAdded" xml:space="preserve">
+        <value>Не удалось добавить биометрию</value>
+    </data>
+    <data name="BiometricsAdded" xml:space="preserve">
+        <value>Биометрия добавлена!</value>
+    </data>
+    <data name="ImageFiles" xml:space="preserve">
+        <value>Файлы изображений</value>
+    </data>
+    <data name="SelectImage" xml:space="preserve">
+        <value>Выбрать изображение</value>
+    </data>
+    <data name="PasswordEntered" xml:space="preserve">
+        <value>Пароль введен! Для отмены выделите поле с паролем и нажмите Escape</value>
+    </data>
 </root>

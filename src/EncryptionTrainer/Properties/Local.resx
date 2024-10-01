@@ -120,4 +120,22 @@
     <data name="UseCamera" xml:space="preserve">
         <value>Use camera</value>
     </data>
+    <data name="DefinitionOfPerson" xml:space="preserve">
+        <value>Definition of a person</value>
+    </data>
+    <data name="BiometricsAdded" xml:space="preserve">
+        <value>Biometrics has been added!</value>
+    </data>
+    <data name="BiometricsNotAdded" xml:space="preserve">
+        <value>Failed to add biometrics</value>
+    </data>
+    <data name="ImageFiles" xml:space="preserve">
+        <value>Image files</value>
+    </data>
+    <data name="SelectImage" xml:space="preserve">
+        <value>Select image</value>
+    </data>
+    <data name="PasswordEntered" xml:space="preserve">
+        <value>Password entered! To cancel, highlight the password field and press Escape</value>
+    </data>
 </root>

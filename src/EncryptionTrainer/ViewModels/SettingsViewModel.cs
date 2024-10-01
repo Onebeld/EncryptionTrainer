@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EncryptionTrainer.General;
 using EncryptionTrainer.Messages;
@@ -14,7 +15,7 @@ using PleasantUI.ToolKit;
 
 namespace EncryptionTrainer.ViewModels;
 
-public class SettingsViewModel : ViewModelBase
+public class SettingsViewModel : ObservableObject
 {
     public Language SelectedLanguage
     {

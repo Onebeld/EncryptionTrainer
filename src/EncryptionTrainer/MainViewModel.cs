@@ -1,33 +1,39 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EncryptionTrainer.General;
 using EncryptionTrainer.Messages;
 using EncryptionTrainer.Models;
 using EncryptionTrainer.Pages;
-using PleasantUI;
+using PleasantUI.Controls;
+using PleasantUI.Core.Localization;
 
 namespace EncryptionTrainer;
 
-public class MainViewModel : ViewModelBase
+public class MainViewModel : ObservableObject
 {
     private readonly Stack<Control?> _previousPages = new();
     
     private bool _isForwardAnimation = true;
     private Control? _page;
 
-    private UserDatabase _userDatabase;
+    private readonly UserDatabase _userDatabase = new();
 
     public bool IsForwardAnimation
     {
         get => _isForwardAnimation;
-        set => RaiseAndSet(ref _isForwardAnimation, value);
+        set => SetProperty(ref _isForwardAnimation, value);
     }
 
     public Control? Page
     {
         get => _page;
-        set => RaiseAndSet(ref _page, value);
+        set => SetProperty(ref _page, value);
     }
 
     public MainViewModel()
@@ -49,6 +55,9 @@ public class MainViewModel : ViewModelBase
 
     public void OpenSettingsPage()
     {
+        if (App.MainWindow.ModalWindows.Any())
+            return;
+        
         if (Page is not SettingsPage)
             ChangePage(new SettingsPage());
     }
@@ -60,9 +69,18 @@ public class MainViewModel : ViewModelBase
             GoBack();
         });
         
-        WeakReferenceMessenger.Default.Register<User, string>(this, "AddUser", (_, message) =>
+        WeakReferenceMessenger.Default.Register<User, string>(this, "AddUser", (_, user) =>
         {
-            _userDatabase.Users.Add(message);
+            _userDatabase.Users.Add(user);
+            
+            PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["UserAdded"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Success);
+        });
+        
+        WeakReferenceMessenger.Default.Register<RequestFaceDataListMessage>(this, (recipient, message) =>
+        {
+            List<byte[]> list = _userDatabase.Users.Select(user => user.FaceData).OfType<byte[]>().ToList();
+
+            message.Reply(list);
         });
     }
 

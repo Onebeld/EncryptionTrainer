@@ -6,6 +6,7 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,10 +14,11 @@
         <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta2" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
         <PackageReference Include="Emgu.CV" Version="4.9.0.5494" />
-        <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
+        <PackageReference Include="Emgu.CV.runtime.windows" Version="4.9.0.5494" />
         <PackageReference Include="FlashCap" Version="1.10.0" />
         <PackageReference Include="PleasantUI" Version="5.0.0-alpha1" />
         <PackageReference Include="ScottPlot.Avalonia" Version="5.0.39" />
+        <PackageReference Include="SkiaImageView.Avalonia11" Version="1.5.0" />
     </ItemGroup>
 
     <ItemGroup>
