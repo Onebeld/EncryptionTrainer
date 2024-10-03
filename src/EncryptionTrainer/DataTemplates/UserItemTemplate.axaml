@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:EncryptionTrainer.Models"
+                    xmlns:windows="clr-namespace:EncryptionTrainer.Windows"
+                    xmlns:windows1="clr-namespace:EncryptionTrainer.ViewModels.Windows">
+    <DataTemplate x:Key="UserItemTemplate" DataType="{x:Type models:User}">
+        <Panel>
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource AccountRegular}" />
+            
+                <TextBlock Text="{CompiledBinding Username}" VerticalAlignment="Center" />
+            </StackPanel>
+            
+            <Button Command="{CompiledBinding $parent[windows:UsersListWindow].((windows1:UsersListViewModel)DataContext).DeleteUser}"
+                    CommandParameter="{CompiledBinding}"
+                    Theme="{StaticResource AppBarButtonTheme}"
+                    ToolTip.Tip="{Localize Delete}" HorizontalAlignment="Right">
+                <PathIcon Data="{StaticResource DeleteRegular}" />
+            </Button>
+        </Panel>
+    </DataTemplate>
+</ResourceDictionary>

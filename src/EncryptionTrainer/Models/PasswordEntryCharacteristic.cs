@@ -1,40 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EncryptionTrainer.Models;
 
 public class PasswordEntryCharacteristic
 {
-    private readonly List<long> _keyDownTimes = new();
-    private readonly List<long> _keyUpTimes = new();
-    private readonly List<long> _interKeyTimes = new();
+    public List<long> KeyDownTimes { get; }
+    public List<long> KeyUpTimes { get; }
+    public List<long> InterKeyTimes { get; }
 
-    public void AddKeyDownTime(long time)
+    public PasswordEntryCharacteristic()
     {
-        _keyDownTimes.Add(time);
+        KeyDownTimes = new List<long>();
+        KeyUpTimes = new List<long>();
+        InterKeyTimes = new List<long>();
     }
     
-    public void AddKeyUpTime(long time)
+    public PasswordEntryCharacteristic(List<long> keyDownTimes, List<long> keyUpTimes, List<long> interKeyTimes)
     {
-        _keyUpTimes.Add(time);
+        KeyDownTimes = keyDownTimes;
+        KeyUpTimes = keyUpTimes;
+        InterKeyTimes = interKeyTimes;
     }
     
     public void AddInterKeyTime()
     {
-        if (_keyDownTimes.Count < 2)
+        if (KeyDownTimes.Count < 2)
             return;
         
-        _interKeyTimes.Add(_keyDownTimes.Last() - _keyDownTimes[^2]);
+        InterKeyTimes.Add(KeyDownTimes.Last() - KeyDownTimes[^2]);
     }
 
     public List<long> GetInterKeyTimes()
     {
-        return _interKeyTimes;
+        return InterKeyTimes;
     }
 
     public List<long> GetHoldTimes()
     {
-        return _keyDownTimes.Select((t, i) => _keyUpTimes[i] - t).ToList();
+        return KeyDownTimes.Select((t, i) => KeyUpTimes[i] - t).ToList();
     }
 
     public (double, double) CompareCharacteristic(PasswordEntryCharacteristic other)
@@ -52,9 +57,9 @@ public class PasswordEntryCharacteristic
             holdTimeDiffs.Add(CalculatePercentageDifference(holdTimes[i], otherHoldTimes[i]));
         }
 
-        for (int i = 0; i < _interKeyTimes.Count; i++)
+        for (int i = 0; i < InterKeyTimes.Count; i++)
         {
-            interKeyTimeDiffs.Add(CalculatePercentageDifference(_interKeyTimes[i], otherInterKeyTimes[i]));
+            interKeyTimeDiffs.Add(CalculatePercentageDifference(InterKeyTimes[i], otherInterKeyTimes[i]));
         }
 
         double avgHoldTimeDiff = holdTimeDiffs.Average();
@@ -65,13 +70,13 @@ public class PasswordEntryCharacteristic
 
     public void ClearAllTimes()
     {
-        _keyDownTimes.Clear();
-        _keyUpTimes.Clear();
-        _interKeyTimes.Clear();
+        KeyDownTimes.Clear();
+        KeyUpTimes.Clear();
+        InterKeyTimes.Clear();
     }
 
     private double CalculatePercentageDifference(double currentValue, double baseValue)
     {
-        return (currentValue - baseValue) / baseValue * 100;
+        return Math.Abs((currentValue - baseValue) / baseValue);
     }
 }

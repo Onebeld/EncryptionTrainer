@@ -60,6 +60,15 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About program.
+        /// </summary>
+        internal static string AboutProgram {
+            get {
+                return ResourceManager.GetString("AboutProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accent color.
         /// </summary>
         internal static string AccentColor {
@@ -101,6 +110,15 @@ namespace EncryptionTrainer.Properties {
         internal static string BiometricsNotAdded {
             get {
                 return ResourceManager.GetString("BiometricsNotAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -182,6 +200,15 @@ namespace EncryptionTrainer.Properties {
         internal static string DefinitionOfPerson {
             get {
                 return ResourceManager.GetString("DefinitionOfPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -276,6 +303,24 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No users.
+        /// </summary>
+        internal static string NoUsers {
+            get {
+                return ResourceManager.GetString("NoUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opacity level.
         /// </summary>
         internal static string OpacityLevel {
@@ -303,11 +348,47 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password does not match.
+        /// </summary>
+        internal static string PasswordNotMatch {
+            get {
+                return ResourceManager.GetString("PasswordNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Paste.
         /// </summary>
         internal static string PasteMenu {
             get {
                 return ResourceManager.GetString("PasteMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please confirm your password.
+        /// </summary>
+        internal static string PleaseConfirmPassword {
+            get {
+                return ResourceManager.GetString("PleaseConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a password.
+        /// </summary>
+        internal static string PleaseEnterPassword {
+            get {
+                return ResourceManager.GetString("PleaseEnterPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a username.
+        /// </summary>
+        internal static string PleaseEnterUsername {
+            get {
+                return ResourceManager.GetString("PleaseEnterUsername", resourceCulture);
             }
         }
         
@@ -393,11 +474,47 @@ namespace EncryptionTrainer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User was successfully added.
+        /// </summary>
+        internal static string UserAdded {
+            get {
+                return ResourceManager.GetString("UserAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User information.
+        /// </summary>
+        internal static string UserInformation {
+            get {
+                return ResourceManager.GetString("UserInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         internal static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username can only contain letters and numbers.
+        /// </summary>
+        internal static string UsernameOnlyLettersNumbers {
+            get {
+                return ResourceManager.GetString("UsernameOnlyLettersNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users list.
+        /// </summary>
+        internal static string UsersList {
+            get {
+                return ResourceManager.GetString("UsersList", resourceCulture);
             }
         }
         

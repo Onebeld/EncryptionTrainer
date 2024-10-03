@@ -138,4 +138,28 @@
     <data name="PasswordEntered" xml:space="preserve">
         <value>Пароль введен! Для отмены выделите поле с паролем и нажмите Escape</value>
     </data>
+    <data name="UserAdded" xml:space="preserve">
+        <value>Пользователь был успешно добавлен</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Отмена</value>
+    </data>
+    <data name="UsersList" xml:space="preserve">
+        <value>Список пользователей</value>
+    </data>
+    <data name="Ok" xml:space="preserve">
+        <value>ОК</value>
+    </data>
+    <data name="AboutProgram" xml:space="preserve">
+        <value>О программе</value>
+    </data>
+    <data name="NoUsers" xml:space="preserve">
+        <value>Нет пользователей</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Удалить</value>
+    </data>
+    <data name="UserInformation" xml:space="preserve">
+        <value>Информация о пользователе</value>
+    </data>
 </root>

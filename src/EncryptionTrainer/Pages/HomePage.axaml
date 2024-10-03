@@ -6,34 +6,56 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="EncryptionTrainer.Pages.HomePage"
              x:DataType="encryptionTrainer:MainViewModel">
-    <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Theme="{StaticResource TitleTextBlockTheme}" Text="{Localize WelcomeToTraining}" HorizontalAlignment="Center" />
+    <Panel>
+        <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}" Text="{Localize WelcomeToTraining}" HorizontalAlignment="Center" />
         
-        <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Center">
-            <Grid.Styles>
-                <Style Selector="Button">
-                    <Setter Property="CornerRadius" Value="8" />
-                    <Setter Property="Height" Value="50" />
-                </Style>
-            </Grid.Styles>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="OuterColumns" />
-                <ColumnDefinition MinWidth="5" />
-                <ColumnDefinition SharedSizeGroup="OuterColumns" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Center">
+                <Grid.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="CornerRadius" Value="8" />
+                        <Setter Property="Height" Value="50" />
+                    </Style>
+                </Grid.Styles>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="OuterColumns" />
+                    <ColumnDefinition MinWidth="5" />
+                    <ColumnDefinition SharedSizeGroup="OuterColumns" />
+                </Grid.ColumnDefinitions>
             
-            <Button Grid.Column="0" Command="{CompiledBinding OpenCreateUserPage}">
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                    <PathIcon Data="{StaticResource AddAccountRegular}" Width="20" Height="20" />
-                    <TextBlock Text="{Localize CreateUser}" />
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="2" Command="{CompiledBinding OpenLoadUserPage}" >
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                    <PathIcon Data="{StaticResource AccountKeyRegular}" Width="20" Height="20" />
-                    <TextBlock Text="{Localize LoadUser}" />
-                </StackPanel>
-            </Button>
-        </Grid>
-    </StackPanel>
+                <Button Grid.Column="0" Command="{CompiledBinding OpenCreateUserPage}">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <PathIcon Data="{StaticResource AddAccountRegular}" Width="20" Height="20" />
+                        <TextBlock Text="{Localize CreateUser}" />
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="2" Command="{CompiledBinding OpenLoadUserPage}" >
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <PathIcon Data="{StaticResource AccountKeyRegular}" Width="20" Height="20" />
+                        <TextBlock Text="{Localize LoadUser}" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </StackPanel>
+        
+        <Button Command="{CompiledBinding OpenUsersListWindow}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Margin="20">
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <PathIcon Data="{StaticResource AccountRegular}" Width="15" Height="15" />
+                <TextBlock Text="{Localize UsersList}" />
+            </StackPanel>
+        </Button>
+        
+        <Button Command="{CompiledBinding OpenAboutPage}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="20">
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <PathIcon Data="{StaticResource InformationRegular}" Width="15" Height="15" />
+                <TextBlock Text="{Localize AboutProgram}" />
+            </StackPanel>
+        </Button>
+    </Panel>
 </UserControl>

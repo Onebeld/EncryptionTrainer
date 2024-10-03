@@ -138,4 +138,43 @@
     <data name="PasswordEntered" xml:space="preserve">
         <value>Password entered! To cancel, highlight the password field and press Escape</value>
     </data>
+    <data name="UserAdded" xml:space="preserve">
+        <value>User was successfully added</value>
+    </data>
+    <data name="PleaseEnterUsername" xml:space="preserve">
+        <value>Please enter a username</value>
+    </data>
+    <data name="UsernameOnlyLettersNumbers" xml:space="preserve">
+        <value>Username can only contain letters and numbers</value>
+    </data>
+    <data name="PleaseEnterPassword" xml:space="preserve">
+        <value>Please enter a password</value>
+    </data>
+    <data name="PleaseConfirmPassword" xml:space="preserve">
+        <value>Please confirm your password</value>
+    </data>
+    <data name="PasswordNotMatch" xml:space="preserve">
+        <value>Password does not match</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="UsersList" xml:space="preserve">
+        <value>Users list</value>
+    </data>
+    <data name="Ok" xml:space="preserve">
+        <value>OK</value>
+    </data>
+    <data name="AboutProgram" xml:space="preserve">
+        <value>About program</value>
+    </data>
+    <data name="NoUsers" xml:space="preserve">
+        <value>No users</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="UserInformation" xml:space="preserve">
+        <value>User information</value>
+    </data>
 </root>

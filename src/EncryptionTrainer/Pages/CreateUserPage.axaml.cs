@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using EncryptionTrainer.ViewModels;
 using PleasantUI.Controls;
+using PleasantUI.Core.Localization;
 
 namespace EncryptionTrainer.Pages;
 
@@ -51,7 +52,7 @@ public partial class CreateUserPage : UserControl
             if (!_stopwatch.IsRunning)
                 _stopwatch.Start();
             
-            _viewModel.PasswordEntryCharacteristic.AddKeyDownTime(_stopwatch.ElapsedMilliseconds);
+            _viewModel.PasswordEntryCharacteristic.KeyDownTimes.Add(_stopwatch.ElapsedMilliseconds);
             _viewModel.PasswordEntryCharacteristic.AddInterKeyTime();
         }
         else
@@ -62,7 +63,7 @@ public partial class CreateUserPage : UserControl
                 
                 _viewModel.ConfirmPassword = string.Empty;
                 
-                PleasantSnackbar.Show(App.MainWindow, "Password does not match", icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
+                PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["PasswordNotMatch"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
                 return;
             }
             
@@ -82,7 +83,7 @@ public partial class CreateUserPage : UserControl
     {
         if (e.Key != Key.Enter && e.Key != Key.Escape)
         {
-            _viewModel.PasswordEntryCharacteristic.AddKeyUpTime(_stopwatch.ElapsedMilliseconds);
+            _viewModel.PasswordEntryCharacteristic.KeyUpTimes.Add(_stopwatch.ElapsedMilliseconds);
         }
     }
 }

@@ -1,0 +1,67 @@
+﻿<ContentDialog xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:windows="clr-namespace:EncryptionTrainer.ViewModels.Windows"
+               mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+               x:Class="EncryptionTrainer.Windows.UsersListWindow"
+               x:DataType="windows:UsersListViewModel"
+               MaxWidth="400"
+               MaxHeight="600">
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="../DataTemplates/UserItemTemplate.axaml"></MergeResourceInclude>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+    <Design.DesignStyle>
+        <Style Selector="ContentDialog">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+    </Design.DesignStyle>
+    
+    <Grid RowDefinitions="Auto,*,Auto">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="20 20 20 0">
+            <PathIcon Data="{StaticResource AccountRegular}" Width="22" Height="22" />
+
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                       Text="{Localize UsersList}" />
+        </StackPanel>
+        
+        <Border Grid.Row="1"
+                Background="{DynamicResource BackgroundColor2}"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Margin="20"
+                ClipToBounds="True">
+            <Panel>
+                <ListBox ItemsSource="{CompiledBinding Users}"
+                         ItemTemplate="{StaticResource UserItemTemplate}" />
+                
+                <TextBlock IsVisible="{CompiledBinding !Users.Count}"
+                           Text="{Localize NoUsers}"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           Foreground="{DynamicResource TextFillColor3}" />
+            </Panel>
+        </Border>
+    </Grid>
+    
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid Margin="15 0" Rows="0" Columns="2">
+            <Button x:Name="OkButton"
+                    Content="{Localize Ok, Default='Ok'}"
+                    Command="{CompiledBinding CloseWithDeleteUsers}"
+                    VerticalAlignment="Center"
+                    Margin="5" />
+
+            <Button x:Name="CancelButton"
+                    Content="{Localize Cancel, Default='Cancel'}"
+                    Command="{CompiledBinding Close}"
+                    VerticalAlignment="Center"
+                    Margin="5" />
+        </UniformGrid>
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

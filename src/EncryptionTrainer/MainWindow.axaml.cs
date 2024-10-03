@@ -15,6 +15,9 @@ public partial class MainWindow : PleasantWindow
 
     private void OnClosed(object? sender, EventArgs e)
     {
+        if (DataContext is MainViewModel mainViewModel)
+            mainViewModel.SaveUsers();
+        
         AppSettings.Save();
     }
 }

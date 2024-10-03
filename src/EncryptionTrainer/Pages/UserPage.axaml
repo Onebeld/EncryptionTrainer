@@ -1,0 +1,31 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:EncryptionTrainer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="EncryptionTrainer.Pages.UserPage"
+             x:DataType="viewModels:UserViewModel">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="20 20 20 10">
+            <Button Command="{CompiledBinding GoBack}">
+                <PathIcon Data="{StaticResource ArrowLeftRegular}" />
+            </Button>
+            
+            <PathIcon Data="{StaticResource AccountRegular}" Width="22" Height="22" />
+            
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                       Text="{Localize UserInformation}" />
+        </StackPanel>
+        
+        <Border Background="{DynamicResource BackgroundColor2}"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Margin="10">
+            <SmoothScrollViewer>
+                
+            </SmoothScrollViewer>
+        </Border>
+    </DockPanel>
+</UserControl>

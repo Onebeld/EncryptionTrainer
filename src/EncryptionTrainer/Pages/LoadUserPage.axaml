@@ -19,7 +19,19 @@
         </StackPanel>
         
         <SmoothScrollViewer>
-            
+            <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="300" Width="300">
+                <TextBox Watermark="{Localize Username}"
+                         Text="{CompiledBinding Username, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                
+                <TextBox x:Name="PasswordTextBox"
+                         Classes="RevealPasswordTextBox"
+                         PasswordChar="•"
+                         KeyDown="PasswordTextBox_OnKeyDown"
+                         KeyUp="PasswordTextBox_OnKeyUp"
+                         Watermark="{Localize Password}"
+                         Text="{CompiledBinding Password}">
+                </TextBox>
+            </StackPanel>
         </SmoothScrollViewer>
     </DockPanel>
 </UserControl>

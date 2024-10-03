@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia;
@@ -10,6 +9,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EncryptionTrainer.Biometry;
+using EncryptionTrainer.Enums;
 using EncryptionTrainer.Loaders;
 using EncryptionTrainer.Loaders.Camera;
 using EncryptionTrainer.Loaders.ImageFile;
@@ -85,7 +85,7 @@ public class CreateUserViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(Username))
         {
-            PleasantSnackbar.Show(App.MainWindow, "Please enter a username", icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Success);
+            PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["PleaseEnterUsername"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
 
             return;
         }
@@ -94,21 +94,21 @@ public class CreateUserViewModel : ObservableObject
 
         if (!regex.IsMatch(Username))
         {
-            PleasantSnackbar.Show(App.MainWindow, "Username can only contain letters and numbers", icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Success);
+            PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["UsernameOnlyLettersNumbers"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
 
             return;
         }
         
         if (!PasswordIsEntered)
         {
-            PleasantSnackbar.Show(App.MainWindow, "Please enter a password", icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Success);
+            PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["PleaseEnterPassword"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
             
             return;
         }
 
         if (!PasswordIsConfirmed)
         {
-            PleasantSnackbar.Show(App.MainWindow, "Please confirm your password", icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Success);
+            PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["PleaseConfirmPassword"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
 
             return;
         }
@@ -162,7 +162,7 @@ public class CreateUserViewModel : ObservableObject
         CameraLoader cameraLoader = new();
         ImageBiometry imageBiometry = new(cameraLoader, _faceDataList);
 
-        CameraCaptureWindow captureWindow = new(imageBiometry, cameraLoader);
+        CameraCaptureWindow captureWindow = new(imageBiometry, cameraLoader, CameraCaptureType.Registration);
 
         byte[]? faceData = await captureWindow.Show<byte[]?>(App.MainWindow);
         

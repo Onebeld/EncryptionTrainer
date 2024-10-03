@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EncryptionTrainer.Biometry;
+using EncryptionTrainer.Enums;
 using EncryptionTrainer.Loaders.Camera;
 using EncryptionTrainer.Windows;
 using FlashCap;
@@ -22,21 +24,33 @@ public class CameraCaptureViewModel : ObservableObject
     private SKBitmap? _cameraBitmap;
     private CaptureDevice _captureDevice;
     
+    private CameraCaptureType _cameraCaptureType;
+
+    private byte[]? _referenceFaceData;
+
+    private CancellationTokenSource _cancellationTokenSource;
+    
     public SKBitmap? CameraBitmap
     {
         get => _cameraBitmap;
         set => SetProperty(ref _cameraBitmap, value);
     }
 
-    public CameraCaptureViewModel(CameraCaptureWindow window,ImageBiometry imageBiometry, CameraLoader cameraLoader)
+    public CameraCaptureViewModel(CameraCaptureWindow window, ImageBiometry imageBiometry, CameraLoader cameraLoader, CameraCaptureType cameraCaptureType, byte[]? referenceFaceData = null)
     {
         _window = window;
 
         if (Design.IsDesignMode)
             return;
+
+        _cancellationTokenSource = new CancellationTokenSource();
         
         _cameraLoader = cameraLoader;
         _imageBiometry = imageBiometry;
+
+        _referenceFaceData = referenceFaceData;
+
+        _cameraCaptureType = cameraCaptureType;
         
         _ = RunCaptureAsync();
     }
@@ -53,6 +67,13 @@ public class CameraCaptureViewModel : ObservableObject
         await DisposeAsync();
         
         _window.Close(faceData);
+    }
+
+    public async Task ReceivePredictionResultAsync(bool result)
+    {
+        await DisposeAsync();
+        
+        _window.Close(result);
     }
 
     private async Task RunCaptureAsync()
@@ -77,14 +98,30 @@ public class CameraCaptureViewModel : ObservableObject
 
             _cameraLoader.Load(bitmap.Width, bitmap.Height, image);
 
-            byte[]? faceData = _imageBiometry.GetFaceData();
+            if (_cameraCaptureType == CameraCaptureType.Registration)
+            {
+                byte[]? faceData = _imageBiometry.GetFaceData();
 
-            if (faceData is not null)
-                Dispatcher.UIThread.Post(() =>
+                if (faceData is not null)
                 {
-                    _ = ReceiveFaceDataAsync(faceData);
-                });
-        });
+                    _cancellationTokenSource.Cancel();
+                    Dispatcher.UIThread.Post(() => { _ = ReceiveFaceDataAsync(faceData); });
+                }
+            }
+            else if (_cameraCaptureType == CameraCaptureType.Identification)
+            {
+                if (_referenceFaceData is null)
+                    return;
+
+                bool? result = _imageBiometry.CompareFaces(_referenceFaceData);
+
+                if (result is not null)
+                {
+                    _cancellationTokenSource.Cancel();
+                    Dispatcher.UIThread.Post(() => { _ = ReceivePredictionResultAsync(result.Value); });
+                }
+            }
+        }, ct: _cancellationTokenSource.Token);
 
         await _captureDevice.StartAsync();
         
@@ -96,5 +133,6 @@ public class CameraCaptureViewModel : ObservableObject
         await _captureDevice.StopAsync();
         _imageBiometry.Dispose();
         CameraBitmap?.Dispose();
+        _cancellationTokenSource.Dispose();
     }
 }

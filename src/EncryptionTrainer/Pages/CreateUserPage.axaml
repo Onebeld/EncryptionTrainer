@@ -85,6 +85,8 @@
                 
                 <Panel>
                     <TextBox x:Name="PasswordTextBox"
+                             Classes="RevealPasswordTextBox"
+                             PasswordChar="•"
                              KeyDown="PasswordTextBox_OnKeyDown"
                              Watermark="{Localize Password}"
                              Text="{CompiledBinding Password}"
@@ -96,6 +98,8 @@
                     </TextBox>
                     
                     <TextBox x:Name="ConfirmPasswordTextBox"
+                             Classes="RevealPasswordTextBox"
+                             PasswordChar="•"
                              IsReadOnly="{CompiledBinding PasswordIsConfirmed}"
                              Text="{CompiledBinding ConfirmPassword}"
                              KeyDown="ConfirmPasswordTextBox_OnKeyDown"
@@ -154,7 +158,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <PathIcon Data="{StaticResource AddRegular}" />
                         
-                        <TextBlock Text="Add user" />
+                        <TextBlock Text="{Localize CreateUser}" />
                     </StackPanel>
                 </Button>
             </StackPanel>

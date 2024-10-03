@@ -1,4 +1,5 @@
 ﻿using EncryptionTrainer.Biometry;
+using EncryptionTrainer.Enums;
 using EncryptionTrainer.Loaders.Camera;
 using EncryptionTrainer.ViewModels.Windows;
 using PleasantUI.Controls;
@@ -11,13 +12,13 @@ public partial class CameraCaptureWindow : ContentDialog
     {
         InitializeComponent();
 
-        DataContext = new CameraCaptureViewModel(this, null, null);
+        DataContext = new CameraCaptureViewModel(this, null, null, CameraCaptureType.Registration);
     }
 
-    public CameraCaptureWindow(ImageBiometry imageBiometry, CameraLoader cameraLoader)
+    public CameraCaptureWindow(ImageBiometry imageBiometry, CameraLoader cameraLoader, CameraCaptureType cameraCaptureType, byte[]? referenceFaceData = null)
     {
         InitializeComponent();
 
-        DataContext = new CameraCaptureViewModel(this, imageBiometry, cameraLoader);
+        DataContext = new CameraCaptureViewModel(this, imageBiometry, cameraLoader, cameraCaptureType, referenceFaceData);
     }
 }
