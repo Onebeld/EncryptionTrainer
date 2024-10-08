@@ -1,8 +1,10 @@
-﻿using EncryptionTrainer.Models;
+﻿using System;
 
 namespace EncryptionTrainer.Loaders;
 
-public interface IImageLoader
+public interface IImageLoader : IDisposable
 {
-    ImageData Load();
+    event EventHandler<ImageCapturedEventArgs> ImageCaptured;
+    
+    void Load();
 }

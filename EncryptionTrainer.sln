@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptionTrainer", "src\EncryptionTrainer\EncryptionTrainer.csproj", "{9E036146-F422-4E0C-A5BD-5E2C2F76147E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8C80395B-786B-4D96-9A7D-1334A344C32A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptionTrainer.UnitTest", "tests\EncryptionTrainer.UnitTest\EncryptionTrainer.UnitTest.csproj", "{A7874BCE-4FD8-4FF7-871D-934703988C77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,12 @@ Global
 		{9E036146-F422-4E0C-A5BD-5E2C2F76147E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E036146-F422-4E0C-A5BD-5E2C2F76147E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E036146-F422-4E0C-A5BD-5E2C2F76147E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7874BCE-4FD8-4FF7-871D-934703988C77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7874BCE-4FD8-4FF7-871D-934703988C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7874BCE-4FD8-4FF7-871D-934703988C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7874BCE-4FD8-4FF7-871D-934703988C77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A7874BCE-4FD8-4FF7-871D-934703988C77} = {8C80395B-786B-4D96-9A7D-1334A344C32A}
 	EndGlobalSection
 EndGlobal

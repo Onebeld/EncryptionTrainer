@@ -1,19 +1,24 @@
-﻿using System.IO;
+﻿using System;
 using Avalonia.Media.Imaging;
-using EncryptionTrainer.Models;
 
 namespace EncryptionTrainer.Loaders.ImageFile;
 
 public class ImageFileLoader(string path) : IImageLoader
 {
-    public ImageData Load()
+    public event EventHandler<ImageCapturedEventArgs>? ImageCaptured;
+
+    public void Load()
     {
         Bitmap bitmap = new(path);
+        OnImageCaptured(bitmap);
+    }
 
-        MemoryStream ms = new();
-        bitmap.Save(ms);
-        ms.Position = 0;
-        
-        return new ImageData((int)bitmap.Size.Width, (int)bitmap.Size.Height, ms.ToArray());
+    protected virtual void OnImageCaptured(Bitmap image)
+    {
+        ImageCaptured?.Invoke(this, new ImageCapturedEventArgs(image));
+    }
+
+    public void Dispose()
+    {
     }
 }

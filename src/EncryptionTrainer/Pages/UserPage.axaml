@@ -24,7 +24,7 @@
                 CornerRadius="8"
                 Margin="10">
             <SmoothScrollViewer>
-                
+                <Image Source="{CompiledBinding Bitmap}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="100" Margin="10" />
             </SmoothScrollViewer>
         </Border>
     </DockPanel>

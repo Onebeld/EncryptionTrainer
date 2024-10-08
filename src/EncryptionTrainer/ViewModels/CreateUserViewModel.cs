@@ -9,9 +9,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EncryptionTrainer.Biometry;
-using EncryptionTrainer.Enums;
 using EncryptionTrainer.Loaders;
-using EncryptionTrainer.Loaders.Camera;
 using EncryptionTrainer.Loaders.ImageFile;
 using EncryptionTrainer.Messages;
 using EncryptionTrainer.Models;
@@ -23,7 +21,6 @@ namespace EncryptionTrainer.ViewModels;
 
 public class CreateUserViewModel : ObservableObject
 {
-    private readonly List<byte[]> _faceDataList;
     private PasswordEntryCharacteristic _passwordEntryCharacteristic = new();
     
     private string _username;
@@ -74,11 +71,6 @@ public class CreateUserViewModel : ObservableObject
     {
         get => _passwordEntryCharacteristic;
         set => SetProperty(ref _passwordEntryCharacteristic, value);
-    }
-
-    public CreateUserViewModel()
-    {
-        _faceDataList = WeakReferenceMessenger.Default.Send(new RequestFaceDataListMessage());
     }
     
     public void AddUser()
@@ -138,11 +130,13 @@ public class CreateUserViewModel : ObservableObject
         if (files.Count == 0)
             return;
         
-        IImageLoader imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
+        using IImageLoader imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
 
-        ImageBiometry imageBiometry = new(imageLoader, _faceDataList);
+        using FaceBiometric faceBiometric = new(imageLoader);
+        
+        imageLoader.Load();
 
-        byte[]? faceData = imageBiometry.GetFaceData();
+        byte[]? faceData = faceBiometric.DetectedFaceData;
 
         if (faceData is not null)
         {
@@ -159,10 +153,7 @@ public class CreateUserViewModel : ObservableObject
 
     public async Task LoadFaceFromCamera()
     {
-        CameraLoader cameraLoader = new();
-        ImageBiometry imageBiometry = new(cameraLoader, _faceDataList);
-
-        CameraCaptureWindow captureWindow = new(imageBiometry, cameraLoader, CameraCaptureType.Registration);
+        CameraCaptureWindow captureWindow = new(FaceBiometric.Mode.Determination);
 
         byte[]? faceData = await captureWindow.Show<byte[]?>(App.MainWindow);
         

@@ -9,10 +9,8 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EncryptionTrainer.Biometry;
-using EncryptionTrainer.Enums;
 using EncryptionTrainer.General;
 using EncryptionTrainer.Loaders;
-using EncryptionTrainer.Loaders.Camera;
 using EncryptionTrainer.Loaders.ImageFile;
 using EncryptionTrainer.Messages;
 using EncryptionTrainer.Models;
@@ -39,7 +37,7 @@ public class MainViewModel : ObservableObject
         get => _isForwardAnimation;
         set => SetProperty(ref _isForwardAnimation, value);
     }
-
+    
     public Control? Page
     {
         get => _page;
@@ -120,13 +118,6 @@ public class MainViewModel : ObservableObject
             GoBack();
             
             PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["UserAdded"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Success);
-        });
-        
-        WeakReferenceMessenger.Default.Register<RequestFaceDataListMessage>(this, (recipient, message) =>
-        {
-            List<byte[]> list = _userDatabase.Users.Select(user => user.FaceData).OfType<byte[]>().ToList();
-
-            message.Reply(list);
         });
         
         WeakReferenceMessenger.Default.Register<RequestUsersMessage>(this, (_, message) =>
@@ -244,10 +235,7 @@ public class MainViewModel : ObservableObject
 
     private async Task<bool?> CheckFaceFromCamera(User user)
     {
-        CameraLoader cameraLoader = new();
-        ImageBiometry imageBiometry = new(cameraLoader, _userDatabase.Users.Select(user => user.FaceData).OfType<byte[]>().ToList());
-
-        CameraCaptureWindow captureWindow = new(imageBiometry, cameraLoader, CameraCaptureType.Identification, user.FaceData);
+        CameraCaptureWindow captureWindow = new(FaceBiometric.Mode.Comparison, user.FaceData);
         
         bool? result = await captureWindow.Show<bool?>(App.MainWindow);
         return result;
@@ -277,10 +265,10 @@ public class MainViewModel : ObservableObject
             return null;
         
         IImageLoader imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
+        FaceBiometric faceBiometric = new(imageLoader, user.FaceData);
+        
+        imageLoader.Load();
 
-        ImageBiometry imageBiometry = new(imageLoader, _userDatabase.Users.Select(user => user.FaceData).OfType<byte[]>().ToList());
-
-        bool? result = imageBiometry.CompareFaces(user.FaceData);
-        return result;
+        return faceBiometric.FaceMatches;
     }
 }

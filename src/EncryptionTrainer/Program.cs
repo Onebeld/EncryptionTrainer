@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+using Emgu.CV;
 
 namespace EncryptionTrainer;
 
@@ -8,6 +9,8 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        CvInvoke.UseOpenCL = false;
+        
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
     }
