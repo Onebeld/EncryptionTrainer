@@ -1,6 +1,6 @@
 ﻿namespace EncryptionTrainer.UnitTest;
 
-public class KeyboardBiometricsTests
+public class KeystrokeDynamicsTests
 {
     
 }

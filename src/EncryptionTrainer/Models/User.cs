@@ -1,12 +1,15 @@
-﻿namespace EncryptionTrainer.Models;
+﻿using System.Collections.Generic;
+using EncryptionTrainer.Biometry.KeystrokeDynamics;
 
-public class User(string username, string password, PasswordEntryCharacteristic passwordEntryCharacteristic, byte[]? faceData)
+namespace EncryptionTrainer.Models;
+
+public class User(string username, string password, List<List<Keystroke>> keystrokeTemplates, byte[]? faceData)
 {
     public string Username { get; init; } = username;
 
     public string Password { get; init; } = password;
 
     public byte[]? FaceData { get; init; } = faceData;
-
-    public PasswordEntryCharacteristic PasswordEntryCharacteristic { get; init; } = passwordEntryCharacteristic;
+    
+    public List<List<Keystroke>> KeystrokeTemplates { get; init; } = keystrokeTemplates;
 }

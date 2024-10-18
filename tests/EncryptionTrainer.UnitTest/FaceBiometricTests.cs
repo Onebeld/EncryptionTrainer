@@ -1,5 +1,7 @@
 ﻿using Emgu.CV;
 using EncryptionTrainer.Biometry;
+using EncryptionTrainer.UnitTest.Helpers;
+using EncryptionTrainer.UnitTest.Loaders;
 
 namespace EncryptionTrainer.UnitTest;
 
@@ -8,15 +10,17 @@ public class FaceBiometricTests
     private TestImageLoader _imageLoader;
     private FaceBiometric _faceBiometric;
     
+    private byte[] _referenceFaceData;
+    
     [SetUp]
     public void Setup()
     {
         CvInvoke.UseOpenCL = false;
         
-        byte[] referenceFaceData = TestImageLoader.LoadImage("referenceFace.png");
+        _referenceFaceData = ImageLoading.LoadImage("referenceFace.png");
         
         _imageLoader = new TestImageLoader();
-        _faceBiometric = new FaceBiometric(_imageLoader, referenceFaceData);
+        _faceBiometric = new FaceBiometric(_imageLoader);
     }
     
     [TearDown]
@@ -27,40 +31,49 @@ public class FaceBiometricTests
     }
     
     [Test]
-    public void DetermineFace_FaceDetected_ReturnsTrue()
+    public void DetermineFace_FaceDetected_ReturnsByteArray()
     {
-        _imageLoader.Load("face1.png");
-        Assert.That(_faceBiometric.FaceIdentified, Is.True);
+        _imageLoader.LoadFile("face1.png");
         
-        _imageLoader.Load("face2.png");
-        Assert.That(_faceBiometric.FaceIdentified, Is.True);
+        byte[]? faceData1 = _faceBiometric.GetFaceData();
+        Assert.That(faceData1, Is.Not.Null);
+        
+        _imageLoader.LoadFile("face2.png");
+        
+        byte[]? faceData2 = _faceBiometric.GetFaceData();
+        Assert.That(faceData2, Is.Not.Null);
     }
 
     [Test]
-    public void DetermineFace_FaceNotDetected_ReturnsFalse()
+    public void DetermineFace_FaceNotDetected_ReturnsNull()
     {
-        _imageLoader.Load("empty.png");
+        _imageLoader.LoadFile("empty.png");
         
-        Assert.That(_faceBiometric.FaceIdentified, Is.False);
+        byte[]? faceData = _faceBiometric.GetFaceData();
+        Assert.That(faceData, Is.Null);
     }
 
     [Test]
     public void CompareFaces_FacesMatch_ReturnsTrue()
     {
-        _imageLoader.Load("face2.png");
+        _imageLoader.LoadFile("face2.png");
+
+        (bool? result, double? distance) = _faceBiometric.CompareFace(_referenceFaceData);
         
-        Assert.That(_faceBiometric.FaceMatches, Is.True);
+        Assert.That(result, Is.True);
         
-        TestContext.Out.WriteLine("Distance: " + _faceBiometric.FaceMatchDistance);
+        TestContext.Out.WriteLine("Distance: " + distance);
     }
     
     [Test]
     public void CompareFaces_FacesNotMatch_ReturnsFalse()
     {
-        _imageLoader.Load("fakeFace.jpg");
+        _imageLoader.LoadFile("fakeFace.jpg");
         
-        Assert.That(_faceBiometric.FaceMatches, Is.False);
+        (bool? result, double? distance) = _faceBiometric.CompareFace(_referenceFaceData);
         
-        TestContext.Out.WriteLine("Distance: " + _faceBiometric.FaceMatchDistance);
+        Assert.That(result, Is.False);
+        
+        TestContext.Out.WriteLine("Distance: " + distance);
     }
 }

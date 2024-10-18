@@ -62,7 +62,8 @@ public class UsersLoader
 
             PasswordEntryCharacteristic passwordEntryCharacteristic = ReadPasswordEntryCharacteristic(reader);
 
-            users.Add(new User(username, password, passwordEntryCharacteristic, faceData));
+            // TODO
+            //users.Add(new User(username, password, faceData));
         }
         
         return users;
@@ -143,7 +144,7 @@ public class UsersLoader
     
     private static void WritePasswordEntryCharacteristic(User user, BinaryWriter writer)
     {
-        int keyDownTimesCount = user.PasswordEntryCharacteristic.KeyDownTimes.Count;
+        /*int keyDownTimesCount = user.PasswordEntryCharacteristic.KeyDownTimes.Count;
         int keyUpTimesCount = user.PasswordEntryCharacteristic.KeyUpTimes.Count;
         int interKeyTimesCount = user.PasswordEntryCharacteristic.InterKeyTimes.Count;
             
@@ -156,7 +157,7 @@ public class UsersLoader
         foreach (long keyUpTime in user.PasswordEntryCharacteristic.KeyUpTimes)
             writer.Write(keyUpTime);
         foreach (long interKeyTime in user.PasswordEntryCharacteristic.InterKeyTimes)
-            writer.Write(interKeyTime);
+            writer.Write(interKeyTime);*/
     }
 
     private static void WriteFaceData(BinaryWriter writer, User user)

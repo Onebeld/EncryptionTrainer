@@ -28,6 +28,7 @@ public class CreateUserViewModel : ObservableObject
     private byte[]? _faceData;
     
     private string _confirmPassword;
+    private int _attempt;
 
     private bool _passwordIsEntered;
     private bool _passwordIsConfirmed;
@@ -60,6 +61,12 @@ public class CreateUserViewModel : ObservableObject
     {
         get => _passwordIsConfirmed;
         set => SetProperty(ref _passwordIsConfirmed, value);
+    }
+
+    public int Attempt
+    {
+        get => _attempt;
+        set => SetProperty(ref _attempt, value);
     }
 
     public bool FaceDataIsAdded
@@ -105,9 +112,9 @@ public class CreateUserViewModel : ObservableObject
             return;
         }
         
-        User user = new(_username, _password, _passwordEntryCharacteristic, _faceData);
+        //User user = new(_username, _password, _faceData);
 
-        WeakReferenceMessenger.Default.Send(user, "AddUser");
+        //WeakReferenceMessenger.Default.Send(user, "AddUser");
     }
 
     public async Task LoadFaceFromImage()
@@ -130,13 +137,12 @@ public class CreateUserViewModel : ObservableObject
         if (files.Count == 0)
             return;
         
-        using IImageLoader imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
-
+        using IImageProvider imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
         using FaceBiometric faceBiometric = new(imageLoader);
         
         imageLoader.Load();
 
-        byte[]? faceData = faceBiometric.DetectedFaceData;
+        byte[]? faceData = faceBiometric.GetFaceData();
 
         if (faceData is not null)
         {

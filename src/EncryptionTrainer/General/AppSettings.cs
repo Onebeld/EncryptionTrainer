@@ -13,11 +13,18 @@ public class AppSettings : ViewModelBase
     private const string FileName = "AppSettings.json";
     
     private string _language = null!;
+    private int _numberOfAttempts = 3;
 
     public string Language
     {
         get => _language;
         set => RaiseAndSet(ref _language, value);
+    }
+
+    public int NumberOfAttempts
+    {
+        get => _numberOfAttempts;
+        set => RaiseAndSet(ref _numberOfAttempts, value);
     }
 
     public static readonly AppSettings Instance;

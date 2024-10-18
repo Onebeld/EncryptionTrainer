@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using Avalonia;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
 using Avalonia.Input;
-using Avalonia.Media;
+using EncryptionTrainer.Biometry.KeystrokeDynamics;
+using EncryptionTrainer.General;
 using EncryptionTrainer.ViewModels;
-using PleasantUI.Controls;
-using PleasantUI.Core.Localization;
 
 namespace EncryptionTrainer.Pages;
 
@@ -14,6 +13,11 @@ public partial class CreateUserPage : UserControl
 {
     private readonly CreateUserViewModel _viewModel;
     private readonly Stopwatch _stopwatch = new();
+
+    private List<Keystroke> _keystrokes = new();
+    
+    private double _keyDownTime = 0;
+    private double _elapsedMilliseconds = 0;
     
     public CreateUserPage()
     {
@@ -25,65 +29,50 @@ public partial class CreateUserPage : UserControl
 
     private void PasswordTextBox_OnKeyDown(object? sender, KeyEventArgs e)
     {
+        if (_viewModel.Attempt > AppSettings.Instance.NumberOfAttempts)
+        {
+            (sender as TextBox).Text = string.Empty;
+            _viewModel.Password = string.Empty;
+        }
+        
         if (e.Key == Key.Enter)
         {
             _viewModel.PasswordIsEntered = true;
-            _viewModel.ConfirmPassword = string.Empty;
-            ConfirmPasswordTextBox.Focus();
+            _viewModel.ConfirmPassword = _viewModel.Password;
         }
-    }
-
-    private void ConfirmPasswordTextBox_OnKeyDown(object? sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Escape)
+        else if (e.Key == Key.Escape)
         {
-            _viewModel.PasswordIsEntered = false;
-            _viewModel.PasswordIsConfirmed = false;
+            _keystrokes.Clear();
             _viewModel.Password = string.Empty;
-            _viewModel.PasswordEntryCharacteristic.ClearAllTimes();
             
-            ResetStopwatch();
-
-            PasswordTextBox.Focus();
+            _stopwatch.Stop();
+            _stopwatch.Reset();
+            _elapsedMilliseconds = 0;
+            _viewModel.Attempt = 0;
         }
-        
-        if (e.Key != Key.Enter)
+        else if (e.Key == Key.Back)
         {
-            if (!_stopwatch.IsRunning)
-                _stopwatch.Start();
+            _keystrokes.Clear();
+            _viewModel.Password = string.Empty;
             
-            _viewModel.PasswordEntryCharacteristic.KeyDownTimes.Add(_stopwatch.ElapsedMilliseconds);
-            _viewModel.PasswordEntryCharacteristic.AddInterKeyTime();
+            _stopwatch.Stop();
+            _stopwatch.Reset();
         }
         else
         {
-            if (_viewModel.Password != _viewModel.ConfirmPassword)
-            {
-                ResetStopwatch();
-                
-                _viewModel.ConfirmPassword = string.Empty;
-                
-                PleasantSnackbar.Show(App.MainWindow, Localizer.Instance["PasswordNotMatch"], icon: (Geometry)Application.Current.FindResource("AccountBoxRegular"), notificationType: NotificationType.Error);
-                return;
-            }
-            
-            _viewModel.PasswordIsConfirmed = true;
-            
-            ResetStopwatch();
+            _keyDownTime = _stopwatch.ElapsedMilliseconds;
         }
     }
 
-    private void ResetStopwatch()
+    private void PasswordTextBox_OnKeyUp(object? sender, KeyEventArgs e)
     {
-        _stopwatch.Stop();
-        _stopwatch.Reset();
-    }
-
-    private void ConfirmPasswordTextBox_OnKeyUp(object? sender, KeyEventArgs e)
-    {
-        if (e.Key != Key.Enter && e.Key != Key.Escape)
+        if (e.Key != Key.Enter && e.Key != Key.Escape && e.Key != Key.Back)
         {
-            _viewModel.PasswordEntryCharacteristic.KeyUpTimes.Add(_stopwatch.ElapsedMilliseconds);
+            _elapsedMilliseconds = _stopwatch.ElapsedMilliseconds;
+            _keystrokes.Add(new Keystroke(TimeSpan.FromMilliseconds(_keyDownTime), TimeSpan.FromMilliseconds(_elapsedMilliseconds)));
+            
+            _stopwatch.Reset();
+            _viewModel.Attempt++;
         }
     }
 }

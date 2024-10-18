@@ -9,7 +9,7 @@ using EncryptionTrainer.Models;
 
 namespace EncryptionTrainer.Biometry;
 
-public class FaceBiometric : IDisposable
+public class FaceBiometric : IImageListener, IDisposable
 {
     public enum Mode
     {
@@ -21,35 +21,15 @@ public class FaceBiometric : IDisposable
     private const int DetectedFaceWidth = 250;
     private const int DetectedFaceHeight = 250;
     
-    private readonly IImageLoader _imageLoader;
+    private readonly IImageProvider _imageLoader;
     private readonly CascadeClassifier _cascadeClassifier;
-    private readonly byte[]? _referenceImageData;
     
     private Image<Gray, byte>? _detectedFace;
-    
-    public bool FaceIdentified { get; private set; }
-    public bool? FaceMatches { get; private set; }
-    public double? FaceMatchDistance { get; private set; }
 
-    public byte[]? DetectedFaceData
+    public FaceBiometric(IImageProvider imageLoader)
     {
-        get
-        {
-            if (_detectedFace is null)
-                return null;
-            
-            Image<Gray, byte> detectedFace = _detectedFace.Resize(DetectedFaceWidth, DetectedFaceHeight, Inter.Cubic);
-
-            return CvInvoke.Imencode(".png", detectedFace);
-        }
-    }
-
-    public FaceBiometric(IImageLoader imageLoader, byte[]? referenceImageData = null)
-    {
-        _referenceImageData = referenceImageData;
-        
         _imageLoader = imageLoader;
-        _imageLoader.ImageCaptured += ImageLoaderOnImageCaptured;
+        _imageLoader.Attach(this);
         
         string pathToFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "haarcascade_frontalface_default.xml");
         
@@ -58,27 +38,22 @@ public class FaceBiometric : IDisposable
 
         _cascadeClassifier = new CascadeClassifier(pathToFile);
     }
-    
-    private void ImageLoaderOnImageCaptured(object? sender, ImageCapturedEventArgs e)
+
+
+    public void OnImageCaptured(ImageData imageData)
     {
-        bool result = DetectFace(e.ImageData);
-
-        FaceIdentified = result;
-        
-        if (!FaceIdentified)
-            return;
-
-        if (_referenceImageData is null)
-            return;
-
-        FaceMatchDistance = null;
-        FaceMatches = CompareFaces(_referenceImageData);
+        DetectFace(imageData);
     }
     
-    private bool? CompareFaces(byte[] referenceFaceData)
+    public byte[]? GetFaceData()
+    {
+        return _detectedFace is null ? null : CvInvoke.Imencode(".png", _detectedFace);
+    }
+
+    public (bool?, double?) CompareFace(byte[] referenceFaceData)
     {
         if (_detectedFace is null)
-            return null;
+            return (null, null);
         
         Image<Gray, byte> faceImage = new(DetectedFaceWidth, DetectedFaceHeight);
         CvInvoke.Imdecode(referenceFaceData, ImreadModes.AnyColor, faceImage.Mat);
@@ -86,9 +61,8 @@ public class FaceBiometric : IDisposable
         Image<Gray, byte> detectedFace = _detectedFace.Resize(DetectedFaceWidth, DetectedFaceHeight, Inter.Cubic);
 
         double distance = CvInvoke.Norm(faceImage.Mat, detectedFace.Mat, NormType.RelativeL2);
-        FaceMatchDistance = distance;
         
-        return distance < Threshold;
+        return (distance < Threshold, distance);
     }
 
     private bool DetectFace(ImageData imageData)
@@ -109,14 +83,14 @@ public class FaceBiometric : IDisposable
             _cascadeClassifier.DetectMultiScale(image, 1.2, 10, Size.Empty, Size.Empty);
 
         if (faces.Length > 0)
-            _detectedFace = image.Copy(faces[0]).Convert<Gray, byte>();
+            _detectedFace = image.Copy(faces[0]).Convert<Gray, byte>().Resize(DetectedFaceWidth, DetectedFaceHeight, Inter.Cubic);
 
         return _detectedFace is not null;
     }
 
     public void Dispose()
     {
-        _imageLoader.ImageCaptured -= ImageLoaderOnImageCaptured;
+        _imageLoader.Detach(this);
         
         _cascadeClassifier.Dispose();
         _detectedFace?.Dispose();

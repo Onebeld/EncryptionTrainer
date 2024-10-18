@@ -15,7 +15,7 @@
         </Style>
     </Design.DesignStyle>
     
-    <Grid RowDefinitions="Auto,*,Auto" Height="360" Width="540">
+    <Grid RowDefinitions="Auto,*,Auto">
         <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="20 20 20 0">
             <PathIcon Data="{StaticResource CameraRegular}" Width="22" Height="22" />
 
@@ -24,6 +24,7 @@
         </StackPanel>
         
         <Border Grid.Row="1"
+                Width="320" Height="200"
                 Background="{DynamicResource BackgroundColor2}"
                 BorderBrush="{DynamicResource ControlBorderColor}"
                 BorderThickness="1"
@@ -36,7 +37,7 @@
                           Width="75"
                           Height="75" />
                 
-                <siv:SKImageView Source="{CompiledBinding CameraBitmap}" />
+                <siv:SKImageView Source="{CompiledBinding CameraListener.Bitmap}" />
             </Panel>
         </Border>
     </Grid>

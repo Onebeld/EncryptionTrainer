@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace EncryptionTrainer.Models;
+﻿namespace EncryptionTrainer.Models;
 
 public class ImageData(int width, int height, byte[] data)
 {

@@ -1,72 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using FlashCap;
-using SkiaSharp;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using Emgu.CV;
+using Emgu.CV.Util;
+using EncryptionTrainer.Models;
 
 namespace EncryptionTrainer.Loaders.Camera;
 
-public class CameraLoader : IImageLoader
+public class CameraLoader : IImageProvider
 {
-    private CaptureDevice? _captureDevice;
-    private readonly CancellationTokenSource _cancellationTokenSource;
+    private readonly List<IImageListener> _listeners = new();
+    
+    private readonly Mat _frame;
+    private readonly VideoCapture _videoCapture;
 
-    public event EventHandler<ImageCapturedEventArgs>? ImageCaptured;
-
-    public event EventHandler? Initialized;
+    private int _width;
+    private int _height;
 
     public CameraLoader()
     {
-        _cancellationTokenSource = new CancellationTokenSource();
+        _frame = new Mat();
+        _videoCapture = new VideoCapture();
+    }
 
-        _ = InitializeCaptureDeviceAsync();
+    public void Attach(IImageListener listener)
+    {
+        _listeners.Add(listener);
+    }
+
+    public void Detach(IImageListener listener)
+    { 
+        _listeners.Remove(listener);
     }
 
     public void Load()
     {
-        _captureDevice?.StartAsync();
+        _videoCapture.Read(_frame);
+
+        _width = _frame.Width;
+        _height = _frame.Height;
+
+        VectorOfByte vectorOfByte = new();
+        CvInvoke.Imencode(".jpg", _frame, vectorOfByte);
+
+        PixelBufferArrived(vectorOfByte.ToArray());
     }
     
-    protected virtual void OnImageCaptured(byte[] bytes)
+    private void PixelBufferArrived(byte[] bufferScope)
     {
-        ImageCaptured?.Invoke(this, new ImageCapturedEventArgs(bytes));
-    }
-
-    private async Task InitializeCaptureDeviceAsync()
-    {
-        CaptureDevices captureDevices = new();
-        
-        IEnumerable<CaptureDeviceDescriptor> descriptions = captureDevices.EnumerateDescriptors().ToList();
-
-        if (!descriptions.Any())
-            throw new SystemException("No cameras found");
-
-        CaptureDeviceDescriptor descriptor = descriptions.ElementAt(0);
-
-        _captureDevice = await descriptor.OpenAsync(descriptor.Characteristics[0], PixelBufferArrived,
-            ct: _cancellationTokenSource.Token);
-        
-        descriptions.GetEnumerator().Dispose();
-        
-        Initialized?.Invoke(this, EventArgs.Empty);
-    }
-    
-    private void PixelBufferArrived(PixelBufferScope bufferScope)
-    {
-        byte[] image = bufferScope.Buffer.ExtractImage();
-        bufferScope.ReleaseNow();
+        ImageData imageData = new(_width, _height, bufferScope);
             
-        OnImageCaptured(image);
+        NotifyListeners(imageData);
+    }
+    
+    private void NotifyListeners(ImageData imageData)
+    {
+        ImmutableList<IImageListener> list = _listeners.ToImmutableList();
+        
+        foreach (IImageListener imageListener in list)
+        {
+            imageListener.OnImageCaptured(imageData);
+        }
     }
 
     public void Dispose()
     {
-        _cancellationTokenSource.Cancel();
-        
-        _captureDevice?.Dispose();
-        _cancellationTokenSource.Dispose();
+        _frame.Dispose();
+        _videoCapture.Dispose();
     }
 }

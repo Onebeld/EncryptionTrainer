@@ -151,15 +151,16 @@ public class MainViewModel : ObservableObject
                     return false;
                 }
 
-                (double avgHoldTimeDiff, double avgInterkeyTimeDiff) =
-                    message.PasswordEntryCharacteristic.CompareCharacteristic(user.PasswordEntryCharacteristic);
+                // TODO
+                /*(double avgHoldTimeDiff, double avgInterkeyTimeDiff) =
+                    message.PasswordEntryCharacteristic.CompareCharacteristic(user.PasswordEntryCharacteristic);*/
 
-                if (avgHoldTimeDiff < 0.4)
+                /*if (avgHoldTimeDiff < 0.4)
                 {
                     PleasantSnackbar.Show(App.MainWindow, "Доступ запрещен " + avgHoldTimeDiff + " " + avgInterkeyTimeDiff, icon: (Geometry)Application.Current.FindResource("AccountRegular"), notificationType: NotificationType.Error);
                     
                     return false;
-                }
+                }*/
 
                 if (user.FaceData is null)
                 {
@@ -264,11 +265,13 @@ public class MainViewModel : ObservableObject
         if (files.Count == 0)
             return null;
         
-        IImageLoader imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
-        FaceBiometric faceBiometric = new(imageLoader, user.FaceData);
+        IImageProvider imageLoader = new ImageFileLoader(files[0].Path.AbsolutePath);
+        FaceBiometric faceBiometric = new(imageLoader);
         
         imageLoader.Load();
+        
+        (bool? result, _) = faceBiometric.CompareFace(user.FaceData);
 
-        return faceBiometric.FaceMatches;
+        return result;
     }
 }
